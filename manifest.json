@@ -1,20 +1,24 @@
 {
     "manifest_version": 3,
-    "name": "ForceClose",
+    "name": "TabGuardian",
     "description": "Recover Tab",
-    "version": "1.0.0",
+    "version": "1.0",
+    "action": { 
+        "default_popup":"TabGuardian/TabGuardian.html"
+    },
     "background": {
-        "service_worker": "script.js",
+        "service_worker": "background.js",
         "type": "module"
-      },
-    "action": { },
-    "permissions":[
-        "scripting"
+    },    
+    "permissions":[        
+        "storage",
+        "scripting",
+        "tabs"
+
     ],
     "host_permissions":[
         "http://*/*",
         "https://*/*"
-    ]
-    
+    ]   
     
 }
