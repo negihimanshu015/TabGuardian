@@ -5,14 +5,16 @@ const stopbutton= document.getElementById("Stop")
 
 
 
-recover.onclick= () =>{
-    console.log("hello world");
+recover.onclick = async() =>{
+    const tabs = await chrome.tabs.query({
+        url: [
+            "http://*/*",
+            "https://*/*"
+        ]
+      });
+      
+      for (let i = 0 ; i < tabs.length ; i++) {
+        console.log(tabs[i].url)
+      }
 }
 
-start.onclick= () =>{
-    console.log("hello world");
-}
-
-stopbutton.onclick= () =>{
-    console.log("hello world");
-}
