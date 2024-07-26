@@ -18,9 +18,7 @@ chrome.storage.local.get('tabdata' , (result) => {
       if (changeInfo.url) {
         const index = tabdata.findIndex(item => item.id === tabId);
         if (index !== -1) {
-          tabdata[index].url = changeInfo.url;
-          console.log('Tab updated:', tab);
-          console.log('Updated tab data:', tabdata);
+          tabdata[index].url = changeInfo.url;          ;
         } else {
           console.log('Tab not found in data list:', tabId);
         }
@@ -48,8 +46,8 @@ chrome.storage.local.get('tabdata' , (result) => {
               }                     
             
         }
-    )    
-    console.log(tabdata);
+    ) 
+    
     }
 	
    )
