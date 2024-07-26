@@ -1,5 +1,9 @@
-//Element
-chrome.tabs.query({
+let tabdata = [];
+
+chrome.storage.local.get('tabdata' , (result) => {
+  tabdata = result.tabData || [];
+
+  chrome.tabs.query({
     url: [
         "http://*/*",
         "https://*/*"
@@ -7,11 +11,46 @@ chrome.tabs.query({
   })
 
 .then(tabs => {
-    let URL =[];
-    for (let i = 0 ; i < tabs.length ; i++) {
-    URL.push(tabs[i].url);
-    }
-    console.log(URL);
-    }
+    tabdata = tabdata.concat(tabs.map(tab =>({ url:tab.url, id: tab.id })));
+    
+    //on updating current tab
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+      if (changeInfo.url) {
+        const index = tabdata.findIndex(item => item.id === tabId);
+        if (index !== -1) {
+          tabdata[index].url = changeInfo.url;
+          console.log('Tab updated:', tab);
+          console.log('Updated tab data:', tabdata);
+        } else {
+          console.log('Tab not found in data list:', tabId);
+        }
+      }
+    });
+    
+    //pushing newly opened tab.
+    chrome.tabs.onCreated.addListener((tab) => {      
+        tabdata.push({ url: tab.url, id: tab.id });
+        chrome.storage.local.set({ tabdata });                
+        }       
+      )
+    
+    //Removing closed tabs from array.
+    
+    chrome.tabs.onRemoved.addListener(
+        (tabId) => { 
+            const remIndex = tabdata.findIndex(item => item.id === tabId);
 
-)
+            if (remIndex !== -1) { // Check if tab found
+                tabdata.splice(remIndex, 1); // Remove object at the index 
+                chrome.storage.local.set({ tabdata });              
+              } else {
+                console.log('Tab not found in data list:', tabId);
+              }                     
+            
+        }
+    )    
+    console.log(tabdata);
+    }
+	
+   )
+}) 
