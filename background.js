@@ -12,15 +12,22 @@ chrome.storage.local.get('tabdata' , (result) => {
 
 .then(tabs => {
     tabdata = tabdata.concat(tabs.map(tab =>({ url:tab.url, id: tab.id })));
+
+    chrome.windows.getAll({ populate: true }).then(windows => {
+      windows.forEach(win => {
+        win.tabs.forEach(tab => {
+          tabdata.push({ url: tab.url, id: tab.id, windowId: win.id });
+        });
+      });
+      chrome.storage.local.set({ tabdata });
+    });  
     
     //on updating current tab
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       if (changeInfo.url) {
         const index = tabdata.findIndex(item => item.id === tabId);
         if (index !== -1) {
-          tabdata[index].url = changeInfo.url;          ;
-        } else {
-          console.log('Tab not found in data list:', tabId);
+          tabdata[index].url = changeInfo.url;          
         }
       }
     });
@@ -41,9 +48,7 @@ chrome.storage.local.get('tabdata' , (result) => {
             if (remIndex !== -1) { // Check if tab found
                 tabdata.splice(remIndex, 1); // Remove object at the index 
                 chrome.storage.local.set({ tabdata });              
-              } else {
-                console.log('Tab not found in data list:', tabId);
-              }                     
+              }                    
             
         }
     ) 
