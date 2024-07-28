@@ -1,20 +1,7 @@
 const recover = document.getElementById("Recover");
-const startButton = document.getElementById("Start");
-const stopButton = document.getElementById("Stop");
-
 recover.onclick = () => {
     restore();    
 };
-
-startButton.onclick = () => {
-    console.log('Start button clicked');    
-};
-
-stopButton.onclick = () => {
-    console.log('Stop button clicked');    
-};
-
-
 
 let restore = async () => {
     const result = await chrome.storage.local.get("tabdata");
