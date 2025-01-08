@@ -1,7 +1,7 @@
 let tabdata = [];
 
 chrome.storage.local.get('tabdata' , (result) => {
-  tabdata = result.tabData || [];
+  tabdata = result.tabdata || [];
 });
 
 chrome.tabs.query({
