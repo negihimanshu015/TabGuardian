@@ -20,6 +20,11 @@
     "host_permissions":[
         "http://*/*",
         "https://*/*"
-    ]   
+    ],
+    "icons": {
+        "16": "TabGuardian/public/16x16.png",
+        "48": "TabGuardian/public/48x48.png",
+        "128": "TabGuardian/public/120x120.png"
+    }
     
 }
