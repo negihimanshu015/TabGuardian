@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "TabGuardian",
-    "description": "Recover Tab",
+    "description": "Save and recover your browser tabs easily.",
     "version": "1.0",
     "action": { 
         "default_popup":"TabGuardian/TabGuardian.html"
